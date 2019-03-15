@@ -5,6 +5,8 @@ import com.dm_daddy.first_edition.Model.RefCode;
 import com.dm_daddy.first_edition.Repositories.ItemRepository;
 import com.dm_daddy.first_edition.Repositories.RefCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,8 @@ public class ItemController {
     //----- Load All Items --------
     //-----------------------------
     @GetMapping("/items/all")
-    public List<Items> getAllItems(){
-        List<Items> itemList = (List<Items>) repo.findAll();
+    public Page<Items> getAllItems(@RequestParam int page, @RequestParam int size){
+        Page<Items> itemList = (Page<Items>) repo.getAllItems(PageRequest.of(page, size));
         return itemList;
     }
 
