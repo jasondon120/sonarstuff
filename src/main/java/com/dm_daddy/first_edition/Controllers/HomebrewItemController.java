@@ -34,6 +34,14 @@ public class HomebrewItemController {
         return homebrewItemsList;
     }
 
+    //---- Load Hb Item List ----
+    //---------------------------
+    @GetMapping("/homebrewItems/list")
+    public List<HomebrewItems> getAllHbItems(){
+        List<HomebrewItems> homebrewItemsList = (List<HomebrewItems>) repo.findAll();
+        return homebrewItemsList;
+    }
+
     //---- Load Item Type -------
     //---------------------------
     @GetMapping("/homebrewItems/type")

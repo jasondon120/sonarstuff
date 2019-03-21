@@ -33,6 +33,14 @@ public class ItemController {
         return itemList;
     }
 
+    //--- Load Item List -----
+    //------------------------
+    @GetMapping("/items/list")
+    public List<Items> getAllItemList(){
+        List<Items> itemList = (List<Items>) repo.findAll();
+        return itemList;
+    }
+
     //---- Load Item Type -------
     //---------------------------
     @GetMapping("/items/type")
