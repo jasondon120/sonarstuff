@@ -62,7 +62,7 @@ public class HomebrewItemController {
     //--------------------------
     @GetMapping("/homebrewItems/attunement")
     public List<RefCode> getAttunment(){
-        List<RefCode> attunement = refRepo.findByParentId((long) 19);
+        List<RefCode> attunement = refRepo.findByParentId((long) 91);
         return attunement;
     }
 
@@ -70,7 +70,7 @@ public class HomebrewItemController {
     //---------------------------
     @GetMapping("/homebrewItems/armorType")
     public List<RefCode> getArmorType(){
-        List<RefCode> armorType = refRepo.findByParentId((long) 22);
+        List<RefCode> armorType = refRepo.findByParentId((long) 19);
         return armorType;
     }
 
@@ -78,7 +78,7 @@ public class HomebrewItemController {
     //--------------------------
     @GetMapping("/homebrewItems/weaponType")
     public List<RefCode> getWeaponType(){
-        List<RefCode> weaponType = refRepo.findByParentId((long) 37);
+        List<RefCode> weaponType = refRepo.findByParentId((long) 34);
         return weaponType;
     }
 
