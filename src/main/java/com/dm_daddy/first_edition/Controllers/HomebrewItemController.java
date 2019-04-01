@@ -3,16 +3,21 @@ package com.dm_daddy.first_edition.Controllers;
 import com.dm_daddy.first_edition.Model.HomebrewItems;
 import com.dm_daddy.first_edition.Model.Items;
 import com.dm_daddy.first_edition.Model.RefCode;
+import com.dm_daddy.first_edition.Model.User;
 import com.dm_daddy.first_edition.Repositories.HomebrewItemRepository;
 import com.dm_daddy.first_edition.Repositories.RefCodeRepository;
+import com.dm_daddy.first_edition.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RepositoryRestController
@@ -24,6 +29,9 @@ public class HomebrewItemController {
 
     @Autowired
     private RefCodeRepository refRepo;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     //----- Load All Items --------
@@ -87,8 +95,13 @@ public class HomebrewItemController {
     @RequestMapping(value="/homebrewItems/create")
     @PostMapping
     public HomebrewItems createItem(@RequestBody HomebrewItems homebrewItem){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        System.out.println(currentPrincipalName);
+        homebrewItem.setCreator(currentPrincipalName);
         HomebrewItems createdHomebrewItem = repo.save(homebrewItem);
         return createdHomebrewItem;
+
     }
 
     //---- Delete an Item -----

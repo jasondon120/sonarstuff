@@ -21,7 +21,7 @@ public class Campaign {
     private Timestamp startDate;
 
     @Column
-    private String name;
+    private String title;
 
     @Lob
     private String description;

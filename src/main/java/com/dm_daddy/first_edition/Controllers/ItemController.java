@@ -100,9 +100,4 @@ public class ItemController {
         return itemList;
     }
 
-
-//    ResponseEntity<List<Items>> getAllItems(){
-//        List<Items> itemList = (List<Items>) repo.findAll();
-//        return ResponseEntity.ok(itemList);
-//    }
 }
