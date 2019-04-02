@@ -1,9 +1,11 @@
 package com.dm_daddy.first_edition.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,6 +41,11 @@ public class PlayerCharacter {
     @ManyToOne
     @JoinColumn(name = "alignment", referencedColumnName = "ID")
     private RefCode alignmentId;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "playerCharacter")
+    @JsonIgnore
+    private List<PlayerCampaigns> playerCampaigns;
 
     @Column
     private Long level;

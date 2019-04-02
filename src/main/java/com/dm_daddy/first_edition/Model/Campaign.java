@@ -4,14 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @Entity
 @Getter
 @Setter
 @Table(name = "campaign")
-public class Campaign {
+public class Campaign implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -25,6 +27,13 @@ public class Campaign {
 
     @Lob
     private String description;
+
+    @Column
+    private String player;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "campaign")
+    private List<Campaign> campaign;
 
 
 }
