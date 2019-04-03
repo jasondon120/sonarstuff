@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RepositoryRestController
@@ -25,4 +26,13 @@ public class PlayerCampaignController {
         List<PlayerCampaigns> campaignsList = repo.findPlayerCampaignsByPlayerCharacterPlayerOrDungeonMasterContaining(player,dm);
         return campaignsList;
     }
+
+    //------Load Campaign By Id -----
+    //-------------------------------
+    @GetMapping("campaign/{id}")
+    public List<PlayerCampaigns> getCampaignById(@PathVariable Long id){
+        List<PlayerCampaigns> playerList = repo.findPlayerCampaignsByCampaignIdAndPlayerCharacterIsNotNull(id);
+        return playerList;
+    }
+
 }

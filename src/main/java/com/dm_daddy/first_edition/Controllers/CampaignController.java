@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -34,6 +35,14 @@ public class CampaignController {
     public List<Campaign> getAllCampaigns(){
         List<Campaign> campaignList = (List<Campaign>) repo.findAll();
         return campaignList;
+    }
+
+    //---Load Campaign by Id -----
+    //---------------------------
+    @GetMapping("/campaign/single/{id}")
+    public List<Campaign> getCampaignById(@PathVariable Long id){
+       List<Campaign> campaign = (List<Campaign>) repo.findCampaignById(id);
+       return campaign;
     }
 
     //--- Create Campaign ---
