@@ -62,7 +62,7 @@ public class PlayerCharacter {
     @Column
     private String inspiration;
 
-    @Column
+    @Lob
     private String backstory;
 
     @Column

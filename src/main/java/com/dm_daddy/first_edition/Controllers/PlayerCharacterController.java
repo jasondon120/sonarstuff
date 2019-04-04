@@ -31,6 +31,22 @@ public class PlayerCharacterController {
     return characterList;
     }
 
+    //---- Load Character By Id ------
+    //--------------------------------
+    @GetMapping("/character/{id}")
+    public List<PlayerCharacter> getCharacterById(@PathVariable Long id){
+        List<PlayerCharacter> character = repo.findPlayerCharacterById(id);
+        return character;
+    }
+
+    //--- Load Character By Creator and Camp_Id is null ------
+    //--------------------------------------------------------
+    @GetMapping("/character/user/{player}")
+    public List<PlayerCharacter> getChar(@PathVariable String player){
+        List<PlayerCharacter> charList = repo.findPlayerCharacterByPlayerContainingAndCampIdIsNull(player);
+        return charList;
+    }
+
     //----- Load alignment ------
     //---------------------------
     @GetMapping("/alignment")
@@ -90,7 +106,6 @@ public class PlayerCharacterController {
         PlayerCharacter createCharacter = repo.save(playerCharacter);
         return createCharacter;
     }
-
 
 
 }

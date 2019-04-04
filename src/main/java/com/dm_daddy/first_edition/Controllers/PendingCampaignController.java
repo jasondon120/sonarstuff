@@ -9,9 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @RestController
 @RepositoryRestController
@@ -36,6 +38,21 @@ public class PendingCampaignController {
 
     //---Load Pending Request for Player ----
     //---------------------------------------
+    @GetMapping("/invite/{username}")
+    public List<PendingCampaign> getPendingCampaignByPlayer(@PathVariable String username){
+        List<PendingCampaign> pendingList = repo.findPendingCampaignByPlayerContaining(username);
+        return pendingList;
+    }
+
+    //--- Decline Campaign Invite----
+    //-------------------------------
+    @RequestMapping(value = "/invite/delete/{id}", method = RequestMethod.DELETE)
+    public List<PendingCampaign> deleteInvite(@PathVariable Long id){
+        repo.deleteById(id);
+        List<PendingCampaign> pendingList = (List<PendingCampaign>) repo.findAll();
+        return pendingList;
+    }
+
 
 
 }

@@ -12,4 +12,8 @@ public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacte
 
 
     List<PlayerCharacter> findPlayerCharacterByPlayerContaining(String player);
+
+    List<PlayerCharacter> findPlayerCharacterByPlayerContainingAndCampIdIsNull(String player);
+
+    List<PlayerCharacter> findPlayerCharacterById(Long id);
 }
