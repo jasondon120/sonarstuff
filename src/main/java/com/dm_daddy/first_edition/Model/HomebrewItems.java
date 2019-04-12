@@ -18,9 +18,9 @@ public class HomebrewItems {
     @Column
     private String name;
 
-    @Column
-    private String creator;
-
+    @ManyToOne
+    @JoinColumn(name = "creatorId", referencedColumnName = "ID")
+    private  User creatorId;
 
     @ManyToOne
     @JoinColumn(name = "type", referencedColumnName = "ID")

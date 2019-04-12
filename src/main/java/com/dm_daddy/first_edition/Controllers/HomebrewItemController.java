@@ -95,10 +95,10 @@ public class HomebrewItemController {
     @RequestMapping(value="/homebrewItems/create")
     @PostMapping
     public HomebrewItems createItem(@RequestBody HomebrewItems homebrewItem){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        System.out.println(currentPrincipalName);
-        homebrewItem.setCreator(currentPrincipalName);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//        System.out.println(currentPrincipalName);
+//        homebrewItem.setCreator(currentPrincipalName);
         HomebrewItems createdHomebrewItem = repo.save(homebrewItem);
         return createdHomebrewItem;
 

@@ -1,18 +1,20 @@
 package com.dm_daddy.first_edition.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class PlayerCharacter {
+public class PlayerCharacter implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long id;
 
@@ -20,8 +22,10 @@ public class PlayerCharacter {
     @JoinColumn(name = "campId", referencedColumnName = "ID")
     private Campaign campId;
 
-    @Column
-    private String player;
+    @ManyToOne
+    @JoinColumn(name = "creatorId", referencedColumnName = "ID")
+    private User creatorId;
+
 
     @Column
     private String characterNm;
@@ -46,6 +50,10 @@ public class PlayerCharacter {
     @JoinColumn(name = "playerCharacter")
     @JsonIgnore
     private List<PlayerCampaigns> playerCampaigns;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "playerCharacter")
+    private List<SkillBonus> skillBonus;
 
     @Column
     private Long level;

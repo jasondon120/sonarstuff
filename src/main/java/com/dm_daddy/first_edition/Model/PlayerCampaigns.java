@@ -22,7 +22,8 @@ public class PlayerCampaigns {
     @JoinColumn(name = "playerCharacter", referencedColumnName = "ID")
     private PlayerCharacter playerCharacter;
 
-    @Column
-    private String dungeonMaster;
+    @ManyToOne
+    @JoinColumn(name = "creatorId", referencedColumnName = "ID")
+    private User creatorId;
 
 }

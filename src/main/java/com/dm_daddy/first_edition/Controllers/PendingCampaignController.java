@@ -26,11 +26,11 @@ public class PendingCampaignController {
     //--------------------
     @PostMapping("/invite")
     public PendingCampaign pendingCampaign(@RequestBody PendingCampaign pendingCampaign){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
         Calendar now = GregorianCalendar.getInstance();
         Timestamp createdDate = new Timestamp(now.getTimeInMillis());
-        pendingCampaign.setDungeonMaster(currentPrincipalName);
+//        pendingCampaign.setDungeonMaster(currentPrincipalName);
         pendingCampaign.setRequestDate(createdDate);
         repo.save(pendingCampaign);
         return pendingCampaign;

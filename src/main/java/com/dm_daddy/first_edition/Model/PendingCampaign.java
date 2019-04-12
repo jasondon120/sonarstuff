@@ -18,11 +18,13 @@ public class PendingCampaign {
     @Column
     private Timestamp requestDate;
 
-    @Column
-    private String dungeonMaster;
 
     @Column
     private String player;
+
+    @ManyToOne
+    @JoinColumn(name = "creatorId", referencedColumnName = "ID")
+    private User creatorId;
 
     @ManyToOne
     @JoinColumn(name = "campaign", referencedColumnName = "ID")

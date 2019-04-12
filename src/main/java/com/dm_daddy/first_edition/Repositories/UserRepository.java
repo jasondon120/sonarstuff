@@ -2,6 +2,7 @@ package com.dm_daddy.first_edition.Repositories;
 
 import com.dm_daddy.first_edition.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
     List<User> findUserByUsername(String searchCriteria);
+
+//    @Query("select u.id from User u where u.username")
+    List<User> findUsersIdByUsername(String name);
 }

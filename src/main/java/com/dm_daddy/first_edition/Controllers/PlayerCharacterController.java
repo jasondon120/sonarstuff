@@ -1,16 +1,17 @@
 package com.dm_daddy.first_edition.Controllers;
 
-import com.dm_daddy.first_edition.Model.PlayerCharacter;
-import com.dm_daddy.first_edition.Model.RefCode;
-import com.dm_daddy.first_edition.Repositories.PlayerCharacterRepository;
-import com.dm_daddy.first_edition.Repositories.RefCodeRepository;
+import com.dm_daddy.first_edition.Model.*;
+import com.dm_daddy.first_edition.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RepositoryRestController
@@ -23,11 +24,21 @@ public class PlayerCharacterController {
     @Autowired
     private RefCodeRepository refRepo;
 
+    @Autowired
+    private PlayerCampaignRepository campRepo;
+
+    @Autowired
+    private RaceRepository raceRepo;
+
+    @Autowired
+    private SkillBonusRepository skillRepo;
+
     //------ Load Characters By Creator ----
     //-------------------------------------
     @GetMapping("/profile/{player}/characters")
     public List<PlayerCharacter>  getCharacterByCreator(@PathVariable String player){
-    List<PlayerCharacter> characterList = repo.findPlayerCharacterByPlayerContaining(player);
+//    List<PlayerCharacter> characterList = repo.findPlayerCharacterByPlayerContaining(player);
+    List<PlayerCharacter> characterList = repo.findPlayerCharacterByCreatorIdUsername(player);
     return characterList;
     }
 
@@ -43,7 +54,7 @@ public class PlayerCharacterController {
     //--------------------------------------------------------
     @GetMapping("/character/user/{player}")
     public List<PlayerCharacter> getChar(@PathVariable String player){
-        List<PlayerCharacter> charList = repo.findPlayerCharacterByPlayerContainingAndCampIdIsNull(player);
+        List<PlayerCharacter> charList = repo.findPlayerCharacterByCreatorIdUsernameContainingAndCampIdIsNull(player);
         return charList;
     }
 
@@ -67,8 +78,8 @@ public class PlayerCharacterController {
     //---- Load Races -----
     //---------------------
     @GetMapping("/races")
-    public List<RefCode> getRaces(){
-        List<RefCode> raceList = (List<RefCode>) refRepo.findByParentId((long) 94);
+    public List<Race> getRaces(){
+        List<Race> raceList = (List<Race>) raceRepo.findAll();
         return raceList;
     }
 
@@ -99,13 +110,61 @@ public class PlayerCharacterController {
     //----------------------------
     @RequestMapping(value="/character/create")
     @PostMapping
+    @Transactional
     public PlayerCharacter createCharacter(@RequestBody PlayerCharacter playerCharacter){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        playerCharacter.setPlayer(currentPrincipalName);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//        playerCharacter.setPlayer(currentPrincipalName);
+        if(playerCharacter.getSkillBonus() != null){
+            for(SkillBonus bonus: playerCharacter.getSkillBonus()) {
+                bonus.setPlayerCharacter(playerCharacter);
+
+
+            }
+        }
         PlayerCharacter createCharacter = repo.save(playerCharacter);
         return createCharacter;
     }
 
 
+
+    //---- Delete a character ---
+    //---------------------------
+    @RequestMapping(value = "/character/delete/{id}", method = RequestMethod.DELETE)
+    @Transactional
+    public List<PlayerCharacter> deleteCharacter(@PathVariable Long id){
+        PlayerCampaigns pc = campRepo.findPlayerCampaignsByPlayerCharacterId(id);
+        if(pc != null){
+            campRepo.deleteById(pc.getId());
+        }
+        repo.deleteById(id);
+        List<PlayerCharacter> playerList = (List<PlayerCharacter>) repo.findAll();
+        return playerList;
+    }
+
+    //---- Load Proficient Skills by Player Character Id ---------
+    //------------------------------------------------------------
+    @GetMapping("/character/proficiency-skills/{id}")
+    public List<SkillBonus> getAllSkillProf(@PathVariable Long id){
+        List<SkillBonus> skillBonusList = (List<SkillBonus>) skillRepo.findSkillBonusByPlayerCharacterId(id);
+        return skillBonusList;
+    }
+
+    //---- Load all Proficiency by Creator Id ----
+    //-----------------------------------------
+    @GetMapping("/all-characters/{username}")
+    public List<SkillBonus> getSkillByCreatorId(@PathVariable String username) {
+        List<SkillBonus> skillBonusList = (List<SkillBonus>) skillRepo.findSkillBonusByPlayerCharacterCreatorIdUsername(username);
+        return skillBonusList;
+    }
+
+    //---- Load all Proficiency by Campaign Id ---
+    //--------------------------------------------
+    @GetMapping("/campaign/character-skills/{id}")
+    public List<SkillBonus> getSkillByCampId(@PathVariable Long id) {
+        List<SkillBonus> skillBonusList = (List<SkillBonus>) skillRepo.findSkillBonusByPlayerCharacterCampIdId(id);
+        return skillBonusList;
+    }
 }
+
+

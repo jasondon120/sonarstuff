@@ -17,6 +17,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
+
 
 
 @RestController
@@ -51,17 +53,30 @@ public class CampaignController {
     public Campaign createCampaign(@RequestBody Campaign campaign){
         Calendar now = GregorianCalendar.getInstance();
         Timestamp createdDate = new Timestamp(now.getTimeInMillis());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        campaign.setPlayer(currentPrincipalName);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//        campaign.setPlayer(currentPrincipalName);
         campaign.setStartDate(createdDate);
         Campaign createdCampaign = repo.save(campaign);
 
         PlayerCampaigns playerCampaigns = new PlayerCampaigns();
-        playerCampaigns.setDungeonMaster(currentPrincipalName);
+        playerCampaigns.setCreatorId(campaign.getCreatorId());
+//        playerCampaigns.setDungeonMaster(currentPrincipalName);
         playerCampaigns.setCampaign(campaign);
         pcRepo.save(playerCampaigns);
 
        return createdCampaign;
     }
+
+    //--- Delete Campaign ----
+    //------------------------
+    @RequestMapping(value="/campaign/delete/{id}", method = RequestMethod.DELETE)
+    @Transactional
+    public List<Campaign> deleteItem(@PathVariable Long id){
+        pcRepo.deletePlayerCampaignsByCampaignId(id);
+        repo.deleteById(id);
+        List<Campaign> campList = (List<Campaign>) repo.findAll();
+        return campList;
+    }
+
 }

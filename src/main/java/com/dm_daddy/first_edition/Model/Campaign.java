@@ -28,12 +28,13 @@ public class Campaign implements Serializable {
     @Lob
     private String description;
 
-    @Column
-    private String player;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "campaign")
-    private List<Campaign> campaign;
+    @ManyToOne
+    @JoinColumn(name = "creatorId", referencedColumnName = "ID")
+    private  User creatorId;
+//
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "campaign")
+//    private List<Campaign> campaign;
 
 
 }

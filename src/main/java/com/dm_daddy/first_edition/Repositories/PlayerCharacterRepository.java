@@ -11,9 +11,12 @@ import java.util.List;
 public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacter, Long> {
 
 
-    List<PlayerCharacter> findPlayerCharacterByPlayerContaining(String player);
+//    List<PlayerCharacter> findPlayerCharacterByPlayerContaining(String player);
 
-    List<PlayerCharacter> findPlayerCharacterByPlayerContainingAndCampIdIsNull(String player);
+    List<PlayerCharacter> findPlayerCharacterByCreatorIdUsername(String player);
+
+    List<PlayerCharacter> findPlayerCharacterByCreatorIdUsernameContainingAndCampIdIsNull(String player);
 
     List<PlayerCharacter> findPlayerCharacterById(Long id);
+
 }
