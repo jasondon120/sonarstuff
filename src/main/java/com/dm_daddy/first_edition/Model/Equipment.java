@@ -23,6 +23,9 @@ public class Equipment {
     @Column
     private Long cost;
 
+    @Column
+    private String type;
+
     @ManyToOne
     @JoinColumn(name = "weightType", referencedColumnName = "ID")
     private RefCode weightType;

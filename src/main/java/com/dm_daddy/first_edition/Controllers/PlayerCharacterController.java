@@ -106,6 +106,14 @@ public class PlayerCharacterController {
         return skillList;
     }
 
+    //--- Load Skill by Class Name ----
+    //---------------------------------
+    @GetMapping("/skills/{classname}")
+    public List<RefCode> getSkillByName(@PathVariable String classname){
+        List<RefCode> skillList = (List<RefCode>) refRepo.findRefCodeByDescriptionContaining(classname);
+        return skillList;
+    }
+
     //---- Create a character ----
     //----------------------------
     @RequestMapping(value="/character/create")
@@ -165,6 +173,13 @@ public class PlayerCharacterController {
         List<SkillBonus> skillBonusList = (List<SkillBonus>) skillRepo.findSkillBonusByPlayerCharacterCampIdId(id);
         return skillBonusList;
     }
+
+    //--- Filter Skills by Class ----
+    //-------------------------------
+//    @GetMapping("/character/skills/{id}")
+//    public List<RefCode> getSkillsByClass(@PathVariable Long id) {
+//        List<RefCode> skillList = (List<RefCode>)
+//    }
 }
 
 

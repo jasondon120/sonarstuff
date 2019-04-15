@@ -41,6 +41,9 @@ public class Race {
     @Column
     private Long darkVision;
 
+    @Lob
+    private String bio;
+
 
 
 }

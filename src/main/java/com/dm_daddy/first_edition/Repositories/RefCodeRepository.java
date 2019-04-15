@@ -9,4 +9,5 @@ import java.util.List;
 public interface RefCodeRepository extends CrudRepository<RefCode, Long> {
 
     List<RefCode> findByParentId(@Param("parentId") Long id);
+    List<RefCode> findRefCodeByDescriptionContaining(String classname);
 }

@@ -32,7 +32,7 @@ public class PlayerCharacter implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "raceId", referencedColumnName = "ID")
-    private RefCode raceId;
+    private Race raceId;
 
     @ManyToOne
     @JoinColumn(name = "classId", referencedColumnName = "ID")
