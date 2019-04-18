@@ -44,6 +44,9 @@ public class Race {
     @Lob
     private String bio;
 
+    @Lob
+    private String racialTrait;
+
 
 
 }

@@ -39,8 +39,8 @@ public class PlayerCharacter implements Serializable {
     private RefCode classId;
 
     @ManyToOne
-    @JoinColumn(name = "background", referencedColumnName = "ID")
-    private RefCode backgroundId;
+    @JoinColumn(name = "backgroundId", referencedColumnName = "ID")
+    private Backgrounds backgroundId;
 
     @ManyToOne
     @JoinColumn(name = "alignment", referencedColumnName = "ID")

@@ -33,6 +33,11 @@ public class PlayerCharacterController {
     @Autowired
     private SkillBonusRepository skillRepo;
 
+    @Autowired
+    private BackgroundRepository bgRepo;
+
+    @Autowired
+    private RacialFeaturesRepository rfRepo;
     //------ Load Characters By Creator ----
     //-------------------------------------
     @GetMapping("/profile/{player}/characters")
@@ -69,8 +74,8 @@ public class PlayerCharacterController {
     //---- Load Background -----
     //--------------------------
     @GetMapping("/background")
-    public List<RefCode> getBackground(){
-        List<RefCode> backgroundList = (List<RefCode>) refRepo.findByParentId((long) 117);
+    public List<Backgrounds> getBackground(){
+        List<Backgrounds> backgroundList = (List<Backgrounds>) bgRepo.findAll();
         return backgroundList;
     }
 
@@ -174,12 +179,21 @@ public class PlayerCharacterController {
         return skillBonusList;
     }
 
-    //--- Filter Skills by Class ----
-    //-------------------------------
-//    @GetMapping("/character/skills/{id}")
-//    public List<RefCode> getSkillsByClass(@PathVariable Long id) {
-//        List<RefCode> skillList = (List<RefCode>)
-//    }
+    //---- Load Racial Features By Race Id -----
+    //------------------------------------------
+    @GetMapping("/race/feature/{id}")
+    public List<RacialFeatures> getRaceFeatureByRaceId(@PathVariable Long id) {
+        List<RacialFeatures> racialFeaturesList = (List<RacialFeatures>) rfRepo.findRacialFeaturesByRaceId(id);
+        return racialFeaturesList;
+    }
+
+    //---- Load Racial Features -----
+    //------------------------------
+    @GetMapping("race/feature")
+    public List<RacialFeatures> getRacialFeatures(){
+        List<RacialFeatures> racialFeaturesList = (List<RacialFeatures>) rfRepo.findAll();
+        return racialFeaturesList;
+    }
 }
 
 
